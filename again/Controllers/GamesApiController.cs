@@ -21,12 +21,12 @@ namespace again.Controllers
             _gamesRepository = gamesRepository;
         }
 
-        // GET: api/GamesApi
-        [HttpGet]
-        public IEnumerable<Game> GetGame()
-        {
-            return _gamesRepository.GetAllGames();
-        }
+        //// GET: api/GamesApi
+        //[HttpGet]
+        //public IEnumerable<Game> GetGame()
+        //{
+        //    return _gamesRepository.GetAllGames();
+        //}
 
         //// GET: api/GamesApi/5
         //[HttpGet("{id}")]

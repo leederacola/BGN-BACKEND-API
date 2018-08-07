@@ -8,9 +8,12 @@ namespace again.Interface
 {
     public interface IGameRepository
     {
-        IEnumerable<Game> GetAllGames();
-        Task<Game> GameDetail(int? id);
-        void CreateGame(Game game);
-        void EditGame(Game game);
+        Task<IEnumerable<Game>> GetAllGames();
+        Task<Game> GetGame(int? id);
+        Task<Game> AddGame(Game game);
+        Task<Game> EditGame(Game game);
+        Task<int> DeleteGame(int id);
+        bool GameExist(int id);
+
     }
 }

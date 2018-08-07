@@ -17,12 +17,12 @@ namespace again.Concrete
             _dbContext = dbContext;
         }
 
-        public IEnumerable<Game> GetAllGames()
+        public async Task<IEnumerable<Game>> GetAllGames()
         {
-            return _dbContext.Game.ToList();
+            return  await _dbContext.Game.ToListAsync();
         }
 
-        public async Task<Game> GameDetail(int? id)
+        public async Task<Game> GetGame(int? id)
         {
             if (id == null)
             {
@@ -38,16 +38,37 @@ namespace again.Concrete
             return game;
 
         }
-
-        public void CreateGame (Game game)
+        /*** TODO:
+         *  this used to redirect to newely created game's detail view. It dont now!!!
+         * Add game does not return newely created ID, it needs to!!!!!
+         */
+        public async Task<Game> AddGame(Game game)
         {
             _dbContext.Game.Add(game);
             _dbContext.SaveChanges();
+            return game;
         }
 
-        public void EditGame(Game game)
+        public async Task<Game> EditGame(Game game)
         {
+            _dbContext.Game.Update(game);
+            await _dbContext.SaveChangesAsync();
+            return game;
+           
+        }
 
+        public async Task<int> DeleteGame(int id)
+        {
+            var game = await _dbContext.Game.FindAsync(id);
+            _dbContext.Game.Remove(game);
+            _dbContext.SaveChanges();
+            return id;
+        }
+
+        public bool GameExist(int id)
+        {
+            var b =  _dbContext.Game.Any(e => e.GameID == id);
+            return b;
         }
 
     }
