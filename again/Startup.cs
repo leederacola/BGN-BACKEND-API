@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using again.Models;
+using again.Interface;
+using again.Concrete;
 
 namespace again
 {
@@ -38,6 +40,8 @@ namespace again
 
             services.AddDbContext<againContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("againContext")));
+
+            services.AddScoped<IGameRepository, GameRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

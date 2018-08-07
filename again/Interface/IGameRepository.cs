@@ -6,7 +6,7 @@ using again.Models;
 
 namespace again.Interface
 {
-    interface IGameRepository
+    public interface IGameRepository
     {
         IEnumerable<Game> GetAllGames();
         Task<Game> GameDetail(int? id);
