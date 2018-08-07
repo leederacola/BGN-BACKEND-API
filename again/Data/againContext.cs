@@ -15,5 +15,7 @@ namespace again.Models
         }
 
         public DbSet<again.Models.Game> Game { get; set; }
+        public DbSet<again.Models.Player> Player { get; set; }
+        public DbSet<again.Models.Library> Library { get; set; }
     }
 }

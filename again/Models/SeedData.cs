@@ -20,15 +20,15 @@ namespace again.Models
                 }
 
                 context.Game.AddRange(
-                     new Game
-                     {
-                         Title = "Codenames",
-                         Description = "In Codenames, two teams compete to see who can make contact with all of their agents first. Spymasters give one-word clues that can point to multiple words on the board. Their teammates try to guess words of the right color while avoiding those that belong to the opposing team. And everyone wants to avoid the assassin.",
-                         MinPlayer = 2,
-                         MaxPlayer = 8,
-                         ImgPath = "https://cf.geekdo-images.com/original/img/MJ6MNz8-_rb1C2VUTnYBTYOiiy0=/0x0/pic2582929.jpg",
-                         ThumbPath= ""
-                     },
+                    new Game
+                    {
+                        Title = "Codenames",
+                        Description = "In Codenames, two teams compete to see who can make contact with all of their agents first. Spymasters give one-word clues that can point to multiple words on the board. Their teammates try to guess words of the right color while avoiding those that belong to the opposing team. And everyone wants to avoid the assassin.",
+                        MinPlayer = 2,
+                        MaxPlayer = 8,
+                        ImgPath = "https://cf.geekdo-images.com/original/img/MJ6MNz8-_rb1C2VUTnYBTYOiiy0=/0x0/pic2582929.jpg",
+                        ThumbPath = ""
+                    },
                     new Game
                     {
                         Title = "Blood Rage",
@@ -76,7 +76,26 @@ namespace again.Models
                     }
                 );
                 context.SaveChanges();
+
+                context.Player.AddRange(
+                    new Player { Name = "Ryan" },
+                    new Player { Name = "Eleanor" },
+                    new Player { Name = "Andrea" }
+                );
+                context.SaveChanges();
+
+                context.Library.AddRange(
+
+                    new Library { PlayerID = 1, GameID = 2 },
+                    new Library { PlayerID = 1, GameID = 3 },
+                    new Library { PlayerID = 1, GameID = 4 },
+                    new Library { PlayerID = 2, GameID = 5 },
+                    new Library { PlayerID = 2, GameID = 6 },
+                    new Library { PlayerID = 2, GameID = 7 }
+                    );
+                context.SaveChanges();
             }
+
         }
     }
 }
