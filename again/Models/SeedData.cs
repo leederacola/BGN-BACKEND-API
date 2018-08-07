@@ -85,13 +85,12 @@ namespace again.Models
                 context.SaveChanges();
 
                 context.Library.AddRange(
-
-                    new Library { PlayerID = 1, GameID = 2 },
-                    new Library { PlayerID = 1, GameID = 3 },
-                    new Library { PlayerID = 1, GameID = 4 },
-                    new Library { PlayerID = 2, GameID = 5 },
-                    new Library { PlayerID = 2, GameID = 6 },
-                    new Library { PlayerID = 2, GameID = 7 }
+                    new Library { PlayerID = 1, GameID = 1002 },
+                    new Library { PlayerID = 1, GameID = 1003 },
+                    new Library { PlayerID = 1, GameID = 1004 },
+                    new Library { PlayerID = 2, GameID = 1005 },
+                    new Library { PlayerID = 2, GameID = 1006 },
+                    new Library { PlayerID = 2, GameID = 1007 }
                     );
                 context.SaveChanges();
             }
