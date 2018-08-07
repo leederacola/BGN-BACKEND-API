@@ -13,5 +13,6 @@ namespace again.Models
         public int MinPlayer { get; set; }
         public int MaxPlayer { get; set; }
         public string ImgPath { get; set; }
+        public string ThumbPath { get; set; }
     }
 }

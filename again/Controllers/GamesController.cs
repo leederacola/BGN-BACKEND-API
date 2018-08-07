@@ -54,7 +54,7 @@ namespace again.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GameID,Title,Description,MinPlayer,MaxPlayer,ImgPath")] Game game)
+        public async Task<IActionResult> Create([Bind("GameID,Title,Description,MinPlayer,MaxPlayer,ImgPath,ThumbPath")] Game game)
         {
             if (ModelState.IsValid)
             {
