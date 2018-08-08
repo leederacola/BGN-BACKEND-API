@@ -14,6 +14,5 @@ namespace again.Interface
         Task<Game> EditGame(Game game);
         Task<int> DeleteGame(int id);
         bool GameExist(int id);
-
     }
 }

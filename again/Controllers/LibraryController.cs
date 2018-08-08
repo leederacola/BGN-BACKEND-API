@@ -6,50 +6,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using again.Models;
+using again.Interface;
 
 namespace again.Controllers
 {
     public class LibraryController : Controller
     {
-        private readonly againContext _context;
+        private readonly ILibraryRepository _libraryRepository;
 
-        public LibraryController(againContext context)
+        public LibraryController(ILibraryRepository libraryRepository)
         {
-            _context = context;
+            _libraryRepository = libraryRepository;
         }
 
-        // GET: Library
+        // GET: Libraries
         public async Task<IActionResult> Index()
         {
-            var againContext = _context.Library.Include(l => l.Game).Include(l => l.Player);
-            return View(await againContext.ToListAsync());
-        }
-
-        // GET: Library/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var library = await _context.Library
-                .Include(l => l.Game)
-                .Include(l => l.Player)
-                .FirstOrDefaultAsync(m => m.LibraryID == id);
-            if (library == null)
-            {
-                return NotFound();
-            }
-
-            return View(library);
+            var libraries = await _libraryRepository.GetAllLibraries();
+            return View(libraries);
         }
 
         // GET: Library/Create
         public IActionResult Create()
         {
-            ViewData["GameID"] = new SelectList(_context.Game, "GameID", "GameID");
-            ViewData["PlayerID"] = new SelectList(_context.Player, "PlayerID", "PlayerID");
+            // need repo calls for only bring in game title and player names
+            // research ViewData
+            //ViewData["GameID"] = new SelectList(_context.Game, "GameID", "GameID");
+            //ViewData["PlayerID"] = new SelectList(_context.Player, "PlayerID", "PlayerID");
             return View();
         }
 
@@ -62,82 +45,25 @@ namespace again.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(library);
-                await _context.SaveChangesAsync();
+               await  _libraryRepository.CreateLibrary(library);
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GameID"] = new SelectList(_context.Game, "GameID", "GameID", library.GameID);
-            ViewData["PlayerID"] = new SelectList(_context.Player, "PlayerID", "PlayerID", library.PlayerID);
-            return View(library);
-        }
-
-        // GET: Library/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var library = await _context.Library.FindAsync(id);
-            if (library == null)
-            {
-                return NotFound();
-            }
-            ViewData["GameID"] = new SelectList(_context.Game, "GameID", "GameID", library.GameID);
-            ViewData["PlayerID"] = new SelectList(_context.Player, "PlayerID", "PlayerID", library.PlayerID);
-            return View(library);
-        }
-
-        // POST: Library/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LibraryID,PlayerID,GameID")] Library library)
-        {
-            if (id != library.LibraryID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(library);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LibraryExists(library.LibraryID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["GameID"] = new SelectList(_context.Game, "GameID", "GameID", library.GameID);
-            ViewData["PlayerID"] = new SelectList(_context.Player, "PlayerID", "PlayerID", library.PlayerID);
+            //ViewData["GameID"] = new SelectList(_context.Game, "GameID", "GameID", library.GameID);
+            //ViewData["PlayerID"] = new SelectList(_context.Player, "PlayerID", "PlayerID", library.PlayerID);
             return View(library);
         }
 
         // GET: Library/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            
+            var library = await _libraryRepository.GetLibraryById(id);
 
-            var library = await _context.Library
-                .Include(l => l.Game)
-                .Include(l => l.Player)
-                .FirstOrDefaultAsync(m => m.LibraryID == id);
             if (library == null)
             {
                 return NotFound();
@@ -151,15 +77,113 @@ namespace again.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var library = await _context.Library.FindAsync(id);
-            _context.Library.Remove(library);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+           await _libraryRepository.DeleteLibrary(id);
+           return RedirectToAction(nameof(Index));
         }
 
-        private bool LibraryExists(int id)
-        {
-            return _context.Library.Any(e => e.LibraryID == id);
-        }
+
+
+
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+//// GET: Library/Edit/5
+//public async Task<IActionResult> Edit(int? id)
+//{
+//    if (id == null)
+//    {
+//        return NotFound();
+//    }
+
+//    var library = await _context.Library.FindAsync(id);
+//    if (library == null)
+//    {
+//        return NotFound();
+//    }
+//    ViewData["GameID"] = new SelectList(_context.Game, "GameID", "GameID", library.GameID);
+//    ViewData["PlayerID"] = new SelectList(_context.Player, "PlayerID", "PlayerID", library.PlayerID);
+//    return View(library);
+//}
+
+//// POST: Library/Edit/5
+//// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+//// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+//[HttpPost]
+//[ValidateAntiForgeryToken]
+//public async Task<IActionResult> Edit(int id, [Bind("LibraryID,PlayerID,GameID")] Library library)
+//{
+//    if (id != library.LibraryID)
+//    {
+//        return NotFound();
+//    }
+
+//    if (ModelState.IsValid)
+//    {
+//        try
+//        {
+//            _context.Update(library);
+//            await _context.SaveChangesAsync();
+//        }
+//        catch (DbUpdateConcurrencyException)
+//        {
+//            if (!LibraryExists(library.LibraryID))
+//            {
+//                return NotFound();
+//            }
+//            else
+//            {
+//                throw;
+//            }
+//        }
+//        return RedirectToAction(nameof(Index));
+//    }
+//    ViewData["GameID"] = new SelectList(_context.Game, "GameID", "GameID", library.GameID);
+//    ViewData["PlayerID"] = new SelectList(_context.Player, "PlayerID", "PlayerID", library.PlayerID);
+//    return View(library);
+//}
+
+//// GET: Library/Delete/5
+//public async Task<IActionResult> Delete(int? id)
+//{
+//    if (id == null)
+//    {
+//        return NotFound();
+//    }
+
+//    var library = await _context.Library
+//        .Include(l => l.Game)
+//        .Include(l => l.Player)
+//        .FirstOrDefaultAsync(m => m.LibraryID == id);
+//    if (library == null)
+//    {
+//        return NotFound();
+//    }
+
+//    return View(library);
+//}
+
+//// POST: Library/Delete/5
+//[HttpPost, ActionName("Delete")]
+//[ValidateAntiForgeryToken]
+//public async Task<IActionResult> DeleteConfirmed(int id)
+//{
+//    var library = await _context.Library.FindAsync(id);
+//    _context.Library.Remove(library);
+//    await _context.SaveChangesAsync();
+//    return RedirectToAction(nameof(Index));
+//}
+
+//private bool LibraryExists(int id)
+//{
+//    return _context.Library.Any(e => e.LibraryID == id);
+//}

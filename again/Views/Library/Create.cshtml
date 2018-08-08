@@ -5,6 +5,7 @@
 }
 
 <h2>Create</h2>
+<h5>Use selects/dropdowns for player.name and game.title - who gonna know ids for both?</h5>
 
 <h4>Library</h4>
 <hr />
@@ -14,11 +15,14 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PlayerID" class="control-label"></label>
-                <select asp-for="PlayerID" class ="form-control" asp-items="ViewBag.PlayerID"></select>
+                <input asp-for="PlayerID" class="form-control" />
+                @*<select asp-for="PlayerID" class ="form-control" asp-items="ViewBag.PlayerID"></select>*@
+
             </div>
             <div class="form-group">
                 <label asp-for="GameID" class="control-label"></label>
-                <select asp-for="GameID" class ="form-control" asp-items="ViewBag.GameID"></select>
+                <input asp-for="GameID" class="form-control" />
+                @*<select asp-for="GameID" class ="form-control" asp-items="ViewBag.GameID"></select>*@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
