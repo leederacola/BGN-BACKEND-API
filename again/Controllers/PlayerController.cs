@@ -12,29 +12,28 @@ namespace again.Controllers
 {
     public class PlayerController : Controller
     {
-        private readonly againContext _context;
+        private readonly IPlayerRepository _playerRepository;
 
-        public PlayerController(againContext context)
+        public PlayerController(IPlayerRepository playerRepository)
         {
-            _context = context;
+            _playerRepository = playerRepository;
         }
 
         // GET: Player
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Player.ToListAsync());
+            return View(await _playerRepository.GetAllPlayers());
         }
 
         // GET: Player/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var player = await _context.Player
-                .FirstOrDefaultAsync(m => m.PlayerID == id);
+            var player = _playerRepository.GetPlayerById(id);
             if (player == null)
             {
                 return NotFound();
@@ -58,26 +57,16 @@ namespace again.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(player);
-                await _context.SaveChangesAsync();
+                 _playerRepository.CreatePlayer(player);               
                 return RedirectToAction(nameof(Index));
             }
             return View(player);
         }
 
         // GET: Player/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var player = await _context.Player.FindAsync(id);
-            if (player == null)
-            {
-                return NotFound();
-            }
+            var player = await _playerRepository.GetPlayerById(id);
             return View(player);
         }
 
@@ -97,8 +86,7 @@ namespace again.Controllers
             {
                 try
                 {
-                    _context.Update(player);
-                    await _context.SaveChangesAsync();
+                   await _playerRepository.EditPlayer(player);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,15 +105,14 @@ namespace again.Controllers
         }
 
         // GET: Player/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            var player = await _playerRepository.GetPlayerById(id);
 
-            var player = await _context.Player
-                .FirstOrDefaultAsync(m => m.PlayerID == id);
             if (player == null)
             {
                 return NotFound();
@@ -139,15 +126,13 @@ namespace again.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var player = await _context.Player.FindAsync(id);
-            _context.Player.Remove(player);
-            await _context.SaveChangesAsync();
+            await _playerRepository.DeletePlayer(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool PlayerExists(int id)
         {
-            return _context.Player.Any(e => e.PlayerID == id);
+           return ( _playerRepository.PlayerExist(id));
         }
     }
 }

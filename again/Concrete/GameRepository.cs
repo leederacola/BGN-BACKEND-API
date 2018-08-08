@@ -24,17 +24,8 @@ namespace again.Concrete
 
         public async Task<Game> GetGame(int? id)
         {
-            if (id == null)
-            {
-                return null;
-            }
-
             var game = await _dbContext.Game
                 .FirstOrDefaultAsync(m => m.GameID == id);
-            if (game == null)
-            {
-                return null;
-            }
             return game;
 
         }
@@ -44,7 +35,7 @@ namespace again.Concrete
          */
         public async Task<Game> AddGame(Game game)
         {
-            _dbContext.Game.Add(game);
+             _dbContext.Game.Add(game);
             _dbContext.SaveChanges();
             return game;
         }
