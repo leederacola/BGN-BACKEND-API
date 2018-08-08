@@ -35,7 +35,7 @@ namespace again.Concrete
          */
         public async Task<Game> AddGame(Game game)
         {
-             _dbContext.Game.Add(game);
+            _dbContext.Game.Add(game);
             _dbContext.SaveChanges();
             return game;
         }

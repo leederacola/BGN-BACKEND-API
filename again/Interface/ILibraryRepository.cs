@@ -11,6 +11,7 @@ namespace again.Interface
         // currently list PlayerID and GameID - this is not useful
         Task<IEnumerable<Library>> GetAllLibraries();
         Task<Library> GetLibraryById(int id);
+
         Task<Library> CreateLibrary(Library library);
         Task<int> DeleteLibrary(int id);
     }

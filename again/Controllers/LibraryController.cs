@@ -57,11 +57,7 @@ namespace again.Controllers
         // GET: Library/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            
+
             var library = await _libraryRepository.GetLibraryById(id);
 
             if (library == null)

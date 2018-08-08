@@ -28,12 +28,9 @@ namespace again.Controllers
         // GET: Player/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+  
 
-            var player = _playerRepository.GetPlayerById(id);
+            var player = await _playerRepository.GetPlayerGamesById(id);
             if (player == null)
             {
                 return NotFound();
@@ -57,7 +54,7 @@ namespace again.Controllers
         {
             if (ModelState.IsValid)
             {
-                 _playerRepository.CreatePlayer(player);               
+               await _playerRepository.CreatePlayer(player);               
                 return RedirectToAction(nameof(Index));
             }
             return View(player);
@@ -107,10 +104,7 @@ namespace again.Controllers
         // GET: Player/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+
             var player = await _playerRepository.GetPlayerById(id);
 
             if (player == null)

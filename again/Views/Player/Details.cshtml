@@ -17,6 +17,26 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
+  
+        @if (Model.Games.Count == 0)
+        {
+            <h4>empty</h4>
+
+        }
+        else
+        {
+            @foreach (var g in Model.Games)
+            {
+            <ul>
+                <li>@g.Title</li>
+            </ul>
+                
+            }
+
+        }
+
+
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.PlayerID">Edit</a> |

@@ -11,9 +11,13 @@ namespace again.Interface
     {
         Task<IEnumerable<Player>> GetAllPlayers();
         Task<Player> GetPlayerById(int id);
-        Player CreatePlayer(Player player);
+        // includes players games
+        Task<Player> GetPlayerGamesById(int id);
+        Task<Player> CreatePlayer(Player player);
         Task<Player> EditPlayer(Player player);
         Task<int> DeletePlayer(int id);
         bool PlayerExist(int id);
+
+        //Task<IEnumerable<Game>> GetPlayerGames(int id);
     }
 }

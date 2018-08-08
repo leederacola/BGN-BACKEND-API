@@ -28,10 +28,21 @@ namespace again.Concrete
             return player;
         }
 
-        public Player CreatePlayer(Player player)
+        public async Task<Player> GetPlayerGamesById(int id)
         {
-           _dbContext.Player.Add(player);
-            _dbContext.SaveChangesAsync();
+            var player = await  _dbContext.Player
+                .Include(p => p.Games)
+                .FirstOrDefaultAsync(g => g.PlayerID == id);
+            return player;
+        }
+
+
+
+
+        public async Task<Player> CreatePlayer(Player player)
+        {
+             _dbContext.Player.Add(player);
+             await _dbContext.SaveChangesAsync();
             return player;
         }
 
@@ -49,6 +60,12 @@ namespace again.Concrete
             _dbContext.SaveChanges();
             return id;
         }
+
+        //public async Task<IEnumerable<Game>> GetPlayerGames(int id)
+        //{
+            
+        //}
+
 
         public bool PlayerExist(int id)
         {
