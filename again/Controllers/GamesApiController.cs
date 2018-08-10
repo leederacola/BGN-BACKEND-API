@@ -30,25 +30,25 @@ namespace again.Controllers
             return games;
         }
 
-        ////GET: api/Game/id
-        //[Route("{id:int}")]
-        ////[HttpGet("{id}")]
-        //public async Task<IActionResult> GetGame([FromRoute] int id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        //GET: api/Game/id
+        [Route("{id:int}")]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetGame([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    var game = await _gamesRepository.GetGame(id);
+            var game = await _gamesRepository.GetGame(id);
 
-        //    if (game == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (game == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(game);
-        //}
+            return Ok(game);
+        }
 
         //// PUT: api/GamesApi/5
         //[HttpPut("{id}")]
