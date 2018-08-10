@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using again.Models;
 using again.Interface;
+using Microsoft.AspNetCore.Cors;
 
 namespace again.Controllers
 {
     [Route("api/games")]
+    [EnableCors("LocalTest")]
     [ApiController]
     public class GamesApiController : ControllerBase
     {

@@ -35,15 +35,27 @@ namespace again
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<againContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("againContext")));
-
+            // interface di
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<ILibraryRepository, LibraryRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
+            //CORS cross origin rewquest
+            services.AddCors(options =>
+            {
+                // allow local host
+                options.AddPolicy("LocalTest",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200").AllowAnyHeader();
+                });
+
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
