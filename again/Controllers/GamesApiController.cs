@@ -10,7 +10,7 @@ using again.Interface;
 
 namespace again.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/games")]
     [ApiController]
     public class GamesApiController : ControllerBase
     {
@@ -21,15 +21,18 @@ namespace again.Controllers
             _gamesRepository = gamesRepository;
         }
 
-        //// GET: api/GamesApi
-        //[HttpGet]
-        //public IEnumerable<Game> GetGame()
-        //{
-        //    return _gamesRepository.GetAllGames();
-        //}
+        //GET: api/games
+        [Route("")]
+        [HttpGet]
+        public Task<IEnumerable<Game>> GetAllGames()
+        {
+            var games = _gamesRepository.GetAllGames();
+            return games;
+        }
 
-        //// GET: api/GamesApi/5
-        //[HttpGet("{id}")]
+        ////GET: api/Game/id
+        //[Route("{id:int}")]
+        ////[HttpGet("{id}")]
         //public async Task<IActionResult> GetGame([FromRoute] int id)
         //{
         //    if (!ModelState.IsValid)
@@ -37,7 +40,7 @@ namespace again.Controllers
         //        return BadRequest(ModelState);
         //    }
 
-        //    var game = await _context.Game.FindAsync(id);
+        //    var game = await _gamesRepository.GetGame(id);
 
         //    if (game == null)
         //    {
