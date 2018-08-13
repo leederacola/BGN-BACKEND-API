@@ -17,18 +17,36 @@ namespace again.Concrete
             _dbContext = dbContext;
         }
 
+        // returns games alphabetically
         public async Task<IEnumerable<Game>> GetAllGames()
         {
-            return  await _dbContext.Game.ToListAsync();
+            //return  await _dbContext.Game.ToListAsync();
+            return await _dbContext.Game.OrderBy(g => g.Title).ToListAsync();
+
         }
 
+        // gets game by id for detail view component
         public async Task<Game> GetGame(int? id)
         {
             var game = await _dbContext.Game
                 .FirstOrDefaultAsync(m => m.GameID == id);
             return game;
-
         }
+
+        public async Task<IEnumerable<Game>> GetPlayerGames(int playerId)
+            // SELECT Game.Title, Game.GameID FROM Game
+            // INNER JOIN Library ON Library.GameID = Game.GameID
+            // WHERE Library.PlayerID = playerId;
+        {
+            var x = await _dbContext.Library
+                .Include(y => y.Game)
+                .Where(y => y.PlayerID == playerId)
+                .Select(g => g.Game).ToListAsync();
+            return x;
+        }
+
+
+
         /*** TODO:
          *  this used to redirect to newely created game's detail view. It dont now!!!
          * Add game does not return newely created ID, it needs to!!!!!
