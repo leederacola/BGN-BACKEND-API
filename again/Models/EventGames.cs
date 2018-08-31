@@ -11,7 +11,7 @@ namespace again.Models
         public int EventID { get; set; }
         public int GameID { get; set; }
 
-        public Game Game { get; set; }
-        public Event Event { get; set; }
+        //public Game Game { get; set; }
+        //public Event Event { get; set; }
     }
 }
