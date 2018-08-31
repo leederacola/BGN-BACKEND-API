@@ -34,7 +34,6 @@ namespace again.Concrete
         }
 
         public async Task<IEnumerable<Game>> GetPlayerGames(int playerId)
-            // SELECT Game.Title, Game.GameID FROM Game
             // INNER JOIN Library ON Library.GameID = Game.GameID
             // WHERE Library.PlayerID = playerId;
         {
@@ -44,6 +43,9 @@ namespace again.Concrete
                 .Select(g => g.Game).ToListAsync();
             return x;
         }
+
+
+
 
 
 
@@ -79,6 +81,9 @@ namespace again.Concrete
             var b =  _dbContext.Game.Any(e => e.GameID == id);
             return b;
         }
+
+
+
 
     }
 }

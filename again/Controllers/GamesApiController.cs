@@ -23,7 +23,7 @@ namespace again.Controllers
             _gamesRepository = gamesRepository;
         }
 
-        //GET: api/games
+        // GET: api/games
         [Route("")]
         [HttpGet]
         public Task<IEnumerable<Game>> GetAllGames()
@@ -32,7 +32,7 @@ namespace again.Controllers
             return games;
         }
 
-        //GET: api/Game/id
+        // GET: api/games/id
         [Route("{id:int}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGame([FromRoute] int id)
@@ -48,8 +48,26 @@ namespace again.Controllers
             {
                 return NotFound();
             }
-
             return Ok(game);
+        }
+
+        // Get: api/games/player/playerId
+        [Route("player/{playerId}")]
+        [HttpGet("{playerId}")]
+        public async Task<IActionResult> GetPlayerGames([FromRoute] int playerId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var playerGames = await _gamesRepository.GetPlayerGames(playerId);
+
+            if (playerGames == null)
+            {
+                return NotFound();
+            }
+            return Ok(playerGames);
+
         }
     }
 }
