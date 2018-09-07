@@ -93,7 +93,38 @@ namespace again.Models
                     new Library { PlayerID = 2, GameID = 1007 }
                     );
                 context.SaveChanges();
+
+                context.Event.AddRange(
+                    new Event { EventID = 1, EventTitle = "past game night ex.", DateTime = new DateTime(2017, 10, 12), Notes = "boy, we sure had fun", Active = false },
+                    new Event { EventID = 2, EventTitle = "monthly game night", DateTime = new DateTime(2018, 12, 12), Notes = "let's have fun guys!", Active = true },
+                    new Event { EventID = 3, EventTitle = "casual game night", DateTime = new DateTime(2017, 11, 12), Notes = "invite the wives and friends, partry games only.  Not that wives in general cant enjoy the games we play typically its just ours simply dont.", Active= true }
+                    );
+                context.SaveChanges();
+
+                context.EventPlayers.AddRange(
+                    // 2p
+                    new EventPlayers { EventID = 1, PlayerID = 1},
+                    new EventPlayers { EventID = 1, PlayerID = 2 },
+                    // 3p
+                    new EventPlayers { EventID = 3, PlayerID = 1 },
+                    new EventPlayers { EventID = 3, PlayerID = 2 },
+                    new EventPlayers { EventID = 3, PlayerID = 3 }
+                    // event 2 left open
+                    );
+                context.SaveChanges();
+
+                context.EventGames.AddRange(
+                    // have to add games that player 1 and 2 have
+                    new EventGames { EventID = 1, GameID = 1001 }, 
+                    new EventGames {  EventID = 1, GameID = 1002 },
+                    new EventGames { EventID = 1, GameID = 1006 }
+                    );
+
+
+
             }
+
+           
 
         }
     }

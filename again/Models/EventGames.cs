@@ -11,7 +11,8 @@ namespace again.Models
         public int EventID { get; set; }
         public int GameID { get; set; }
 
-        //public Game Game { get; set; }
-        //public Event Event { get; set; }
+        // navigation property
+        public Game Game { get; set; }
+        public Event Event { get; set; }
     }
 }

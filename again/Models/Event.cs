@@ -14,7 +14,7 @@ namespace again.Models
         public bool Active { get; set; }
 
         // navagation property
-        //public ICollection<Game> EventGames { get; set; }
-        //public ICollection<Player> EventPlayers { get; set; }
+        public ICollection<Game> EventGames { get; set; }
+        public ICollection<Player> EventPlayers { get; set; }
     }
 }
